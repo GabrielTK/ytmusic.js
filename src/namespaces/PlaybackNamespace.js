@@ -177,14 +177,17 @@ export default class PlaybackNamespace extends GMusicNamespace {
           // DEV: We can encounter a text node, verify we have a `classList` to assert against
           const target = m.addedNodes[i];
           if (target && target.parentElement && target.parentElement.parentElement.classList.contains('content-info-wrapper')) {
-            const currentTrack = this.getCurrentTrack();
-            // Make sure that this is the first of the notifications for the
-            // insertion of the song information elements.
-            if (!currentTrack.equals(lastTrack)) {
-              this.emit('change:track', currentTrack);
+            setTimeout(() => { // eslint-disable-line no-loop-func
+              const currentTrack = this.getCurrentTrack();
+              // Make sure that this is the first of the notifications for the
+              // insertion of the song information elements.
+              if (!currentTrack.equals(lastTrack)) {
+                this.emit('change:track', currentTrack);
 
-              lastTrack = currentTrack;
-            }
+                lastTrack = currentTrack;
+              }
+            }, 500);
+            break;
           }
         }
       });
